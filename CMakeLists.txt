@@ -41,19 +41,13 @@ ament_python_install_package(${PROJECT_NAME})
 
 # install python executables
 install(PROGRAMS 
-  scripts/vel_drive.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS 
   scripts/teleop_twist_keyboard.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-install(PROGRAMS 
   scripts/vel_publisher.py
+  scripts/ref_publisher.py
+  scripts/vel_drive.py
+  scripts/control_drive.py
   DESTINATION lib/${PROJECT_NAME}
 )
-
 # install cpp executables
 install(TARGETS comms DESTINATION lib/${PROJECT_NAME})
 install(DIRECTORY launch params DESTINATION share/${PROJECT_NAME}/)

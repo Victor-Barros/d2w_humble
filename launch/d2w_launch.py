@@ -29,9 +29,22 @@ def generate_launch_description():
         name='vel_drive',
         output="screen"
     )
-    
+
+    ref_node = Node(
+        package='d2w_ros2',
+        executable='ref_publisher.py',
+        output="screen"
+    )
+
+    control_node = Node(
+        package='d2w_ros2',
+        executable='control_drive.py',
+        output="screen"
+    )
 
     ld.add_action(params_declare)
     ld.add_action(comms_node)
     ld.add_action(vel_node)
+    ld.add_action(ref_node)
+    ld.add_action(control_node)
     return ld
