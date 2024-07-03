@@ -17,15 +17,26 @@ class Refpub(Node):
         self.y0 = 0.
         self.w0 = 0.
 
+        self.desired_x = 1.
+        self.desired_y = 0.
+        self.desired_w = 0.
+
         self.delta_t = 0.01
         self.theta1_0 = 0.
         self.theta2_0 = 0.
         self.theta3_0 = 0.
         self.theta4_0 = 0.
-        timer_period = 0.05
-        self.timer = self.create_timer(timer_period, self.timer_callback)
 
+        timer_period = 0.01
+        timer_period2 = 0.5
+        self.timer = self.create_timer(timer_period, self.timer_callback)
         self.sub_Vel = self.create_subscription(TwistWithCovariance, 'twist_odom',self.listener_odometry,10 )
+
+        self.vector_x = np.linspace(0, self.desired_x, 300)
+        self.vector_y = np.linspace(0, self.desired_y, 300)
+        self.vector_w = np.linspace(0, self.desired_w, 300)
+
+        self.i = 0
 
     def listener_odometry(self, sensor):
         self.vel_x = sensor.twist.linear.x
@@ -43,22 +54,22 @@ class Refpub(Node):
 
     def timer_callback(self):
         odom = Odometry()
+        msg = Float64MultiArray()
         odom.header.stamp = self.get_clock().now().to_msg()
         odom.pose.pose.position.x = self.x0
         odom.pose.pose.position.y =  self.y0
         odom.pose.pose.orientation.w = self.w0
-        
 
-        '''        arr = input()
-        l = list(map(float, arr.split(' ')))
+        l =[0.,1.,0.] #[self.vector_x[self.i], self.vector_y[self.i], self.vector_w[self.i]]
 
-        if len(l) > 3:
-            msg.data = l[0:3]
-            self.pub_ref.publish(msg)
-        else:
-            self.get_logger().info('Error!')'''
+        msg.data = l
 
+        self.pub_ref.publish(msg)
         self.pub_compute.publish(odom)
+
+        self.i = self.i + 1
+        if self.i == 300:
+            self.i = 290
 
 def main(args=None):
     rclpy.init(args=args)

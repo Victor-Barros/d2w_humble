@@ -36,12 +36,19 @@ def generate_launch_description():
         output="screen"
     )
 
+    plot_node = Node(
+        package='d2w_ros2',
+        executable='plot.py',
+        output="screen"
+    )
+
     control_node = Node(
         package='d2w_ros2',
         executable='control_drive.py',
         output="screen"
     )
 
+    ld.add_action(plot_node)
     ld.add_action(params_declare)
     ld.add_action(comms_node)
     ld.add_action(vel_node)

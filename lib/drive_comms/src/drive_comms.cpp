@@ -32,12 +32,13 @@ void DriveComms::setVel(double joint_vel) {
   // Write setpoints to specific controllers
   char buffer[7] = {0,0,0,0,0,0,0};
   int dir=0;
+  joint_vel = (joint_vel * 30 * 4096)/800;
   if (joint_vel > 0) dir = 1;
   if (std::abs(joint_vel) < 200) {
     joint_vel = 0;
     dir = 0;
-  } else if (std::abs(joint_vel) > 4095) {
-    joint_vel = 4095;
+  } else if (std::abs(joint_vel) > 4096) {
+    joint_vel = 4096;
   } else {
     joint_vel = std::abs(joint_vel);
   } 
@@ -59,7 +60,7 @@ void DriveComms::readOdom(double* value) {
 
   try
   {
-    *value = std::stod(vel)/100;
+    *value = (std::stod(vel)/100)/30;
   }
   catch(const std::exception& e)
   {

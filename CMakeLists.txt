@@ -46,6 +46,7 @@ install(PROGRAMS
   scripts/ref_publisher.py
   scripts/vel_drive.py
   scripts/control_drive.py
+  scripts/plot.py
   DESTINATION lib/${PROJECT_NAME}
 )
 # install cpp executables
