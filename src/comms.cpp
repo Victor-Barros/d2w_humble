@@ -55,8 +55,13 @@ void Comms::handleComms() {
     // Send commands to motors and read odometry
     auto odom_message = std_msgs::msg::Float64MultiArray();
     for (int i=0; i<4; i++) {
-        drive_comms_->startTransaction(i,joint_vel[i],&odom_buffer);
-        raw_odom[i] = odom_buffer;
+        if (i == 1 || i == 3) { // inverter motores 2 e 4 (caracteristica construtiva do robo)
+            drive_comms_->startTransaction(i,-joint_vel[i],&odom_buffer);
+            raw_odom[i] = -odom_buffer;
+        } else {
+            drive_comms_->startTransaction(i,joint_vel[i],&odom_buffer);
+            raw_odom[i] = odom_buffer;
+        }
     }
     odom_message.data = raw_odom;
 
