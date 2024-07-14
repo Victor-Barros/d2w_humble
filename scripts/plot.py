@@ -22,7 +22,7 @@ class SubPlot(Node):
                 ["y"],
                 ["theta"]]
 
-        self.nome_arquivo = "dados.csv"
+        self.nome_arquivo = "src/d2w_ros2/dados.csv"
 
     def call_plot(self,msg):
         self.frame = msg.header.frame_id
