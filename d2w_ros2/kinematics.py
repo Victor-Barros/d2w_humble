@@ -16,9 +16,9 @@ def d2w_kine(x,u,r=0.0485,l1=0.175,l2=0.165):
 def d2w_inv_kine(x, r=.0485, l1=.175, l2=.165):
     (xd_c, yd_c, psid) = x
 
-    phid_1 = (1/r)*(xd_c-yd_c - (l1+l2)*psid)
-    phid_2 = (1/r)*(xd_c+yd_c + (l1+l2)*psid)
-    phid_3 = (1/r)*(xd_c+yd_c - (l1+l2)*psid)
-    phid_4 = (1/r)*(xd_c-yd_c + (l1+l2)*psid)
+    phid_1 = -(1/r)*(xd_c-yd_c - (l1+l2)*psid)
+    phid_2 = -(1/r)*(xd_c+yd_c + (l1+l2)*psid)
+    phid_3 = -(1/r)*(xd_c+yd_c - (l1+l2)*psid)
+    phid_4 = -(1/r)*(xd_c-yd_c + (l1+l2)*psid)
 
     return (phid_1, phid_2, phid_3, phid_4)

@@ -16,12 +16,12 @@ class ControllerPublisher(Node):
         self.sub_ref = self.create_subscription(Float64MultiArray, 'ref', self.ctrl_callback, 10)
         self.sub_odom =  self.create_subscription(Odometry, 'odom', self.odom_callback, 10)
 
-        #self.R = 0.0485
-        #self.l1 = 0.175
-        #self.l2 = 0.165
-        self.R = 0.127
-        self.l1 = 0.5975
-        self.l2 = 0.735
+        self.R = 0.0485
+        self.l1 = 0.175
+        self.l2 = 0.165
+        #self.R = 0.127
+        #self.l1 = 0.5975
+        #self.l2 = 0.735
         self.k = 1
         self.k2 = 5
         self.phid = [0.,0.,0.,0.]
@@ -39,7 +39,9 @@ class ControllerPublisher(Node):
         self.xc = msg.pose.pose.position.x
         self.yc = msg.pose.pose.position.y
         self.psi = self.euler_from_quaternion([msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z, msg.pose.pose.orientation.w])[2]
+        self.get_logger().info('x: %.6s y: %.6s w: %.6s' % (self.xc, self.yc,self.psi))
         self.state = (self.xc, self.yc, self.psi)
+        #self.get_logger().info('%s' % str(self.state))
 
     def go(self):
         psi = self.state[2]
@@ -68,7 +70,7 @@ class ControllerPublisher(Node):
         z = quaternion[2]
         w = quaternion[3]
 
-        sinr_cosp = 2 * (w * x * y * z)
+        sinr_cosp = 2 * (w * x + y * z)
         cosr_cosp = 1 - 2 * (x * x + y * y)
         roll = np.arctan2(sinr_cosp, cosr_cosp)
 
@@ -79,7 +81,7 @@ class ControllerPublisher(Node):
         cosy_cosp = 1 - 2 * (y * y + z * z)
         yaw = np.arctan2(siny_cosp, cosy_cosp)
 
-        return roll, pitch, yaw
+        return roll,pitch,yaw
 
 
 def main(args=None):
