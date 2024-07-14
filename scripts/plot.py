@@ -36,9 +36,9 @@ class SubPlot(Node):
                 escritor_csv.writerows(self.dados)
             self.get_logger().info('escrito.................................................................')
         else:
-            self.dados[1].append(self.position_x)
-            self.dados[2].append(self.position_y)
-            self.dados[3].append(self.orientation_z)
+            self.dados[1].append(round(self.position_x,4))
+            self.dados[2].append(round(self.position_y,4))
+            self.dados[3].append(round(self.orientation_z,4))
 
 
 def main(args=None):
